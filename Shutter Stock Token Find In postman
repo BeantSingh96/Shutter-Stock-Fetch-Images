@@ -1,0 +1,8 @@
+URL:-
+https://api.shutterstock.com/v2/oauth/access_token
+
+//these client_id and client_secret will be generated when you create shutterstock account
+//Then pass these client_id and client_secret in postman you will get api key for shutterstock to fetch images
+client_id:
+client_secret:
+grant_type:client_credentials
