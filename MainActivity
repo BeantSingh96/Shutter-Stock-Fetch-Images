@@ -1,0 +1,199 @@
+package com.knickglobal.demopagination;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.knickglobal.demopagination.PaginationListener.PAGE_START;
+
+public class MainActivity extends AppCompatActivity
+        implements SwipeRefreshLayout.OnRefreshListener {
+
+    private static final String TAG = "MainActivity";
+
+    @BindView(R.id.recyclerView)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.swipeRefresh)
+    SwipeRefreshLayout swipeRefresh;
+    private PostRecyclerAdapter adapter;
+    private int currentPage = PAGE_START;
+    private boolean isLastPage = false;
+    private int totalPage = 20;
+    private boolean isLoading = false;
+    int itemCount = 0;
+
+    int openCheck = 0;
+
+    private List<ImagesPojo.Datum> datum = new ArrayList<>();
+
+    String newDate="2018-08-01";
+
+    private Activity activity;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        activity = MainActivity.this;
+
+        ButterKnife.bind(this);
+
+        swipeRefresh.setOnRefreshListener(this);
+        mRecyclerView.setHasFixedSize(true);
+        // use a linear layout manager
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        adapter = new PostRecyclerAdapter(activity, new ArrayList<>());
+        mRecyclerView.setAdapter(adapter);
+        doApiCall();
+
+        /**
+         * add scroll listener while user reach in bottom load more will call
+         */
+        mRecyclerView.addOnScrollListener(new PaginationListener(layoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                isLoading = true;
+                currentPage++;
+                doApiCall();
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+        });
+    }
+
+    /**
+     * do api call here to fetch data from server
+     * In example i'm adding data manually
+     */
+    private void doApiCall() {
+
+        final ArrayList<PostItem> items = new ArrayList<>();
+
+        if (openCheck == 0) {
+            openCheck = 1;
+        }else{
+            System.out.println("Date before Addition: " + newDate);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Calendar c = Calendar.getInstance();
+            try {
+                c.setTime(sdf.parse(newDate));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            //Incrementing the date by 1 day
+            c.add(Calendar.DAY_OF_MONTH, 1);
+            newDate = sdf.format(c.getTime());
+            System.out.println("Date Incremented by One: " + newDate);
+        }
+
+//        if (openCheck == 0) {
+//            openCheck = 1;
+//            date = "2018-10-01";
+//        } else if (openCheck < 9) {
+//            openCheck++;
+//            String[] splitArr = date.split("-");
+//
+//            String replaceDate = splitArr[2].replace("0", "");
+//            int intDate = Integer.parseInt(replaceDate);
+//            intDate++;
+//            date = splitArr[0] + "-" + splitArr[1] + "-0" + intDate;
+//        }
+
+        Log.d(TAG, "doApiCall: " + newDate);
+
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<ImagesPojo> call = apiInterface.getImages(newDate);
+
+        Log.d(TAG, "doApiCall: " + call.request().url());
+
+        call.enqueue(new Callback<ImagesPojo>() {
+            @Override
+            public void onResponse(@NonNull Call<ImagesPojo> call, @NonNull Response<ImagesPojo> response) {
+                if (response.body() != null) {
+                    if (response.body().getData() != null) {
+                        datum = response.body().getData();
+
+                        for (int i = 0; i < 20; i++) {
+                            itemCount++;
+                            PostItem postItem = new PostItem();
+                            postItem.setTitle(getString(R.string.text_title) + itemCount);
+                            postItem.setImage(datum.get(i).getAssets().getPreview().getUrl());
+                            items.add(postItem);
+                        }
+                        /**
+                         * manage progress view
+                         */
+                        if (currentPage != PAGE_START) adapter.removeLoading();
+                        adapter.addItems(items);
+                        swipeRefresh.setRefreshing(false);
+
+                        // check weather is last page or not
+                        if (currentPage < totalPage) {
+                            adapter.addLoading();
+                        } else {
+                            isLastPage = true;
+                        }
+                        isLoading = false;
+
+
+                } else {
+                    Log.d(TAG, "success data null");
+                }
+            } else
+
+            {
+                Log.d(TAG, "success body null");
+            }
+        }
+
+        @Override
+        public void onFailure (@NonNull Call < ImagesPojo > call, @NonNull Throwable t){
+            Log.d(TAG, "onFailure: " + t.getMessage());
+        }
+    });
+
+}
+
+    @Override
+    public void onRefresh() {
+        newDate="2018-08-01";
+        itemCount = 0;
+        openCheck = 0;
+        currentPage = PAGE_START;
+        isLastPage = false;
+        adapter.clear();
+        doApiCall();
+    }
+}
