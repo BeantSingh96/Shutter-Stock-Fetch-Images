@@ -9,5 +9,5 @@ This is a demo of shutterstock to fetch images in android using php
 //6/ them you can make a pojo or parse this response in android
 
 
-Thanks 
+Thank you, 
 Beant Singh
