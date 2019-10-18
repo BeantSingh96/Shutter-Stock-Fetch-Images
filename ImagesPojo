@@ -1,0 +1,490 @@
+package com.knickglobal.demopagination;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
+public class ImagesPojo {
+
+    @SerializedName("page")
+    @Expose
+    private Integer page;
+    @SerializedName("per_page")
+    @Expose
+    private Integer perPage;
+    @SerializedName("total_count")
+    @Expose
+    private Integer totalCount;
+    @SerializedName("search_id")
+    @Expose
+    private String searchId;
+    @SerializedName("data")
+    @Expose
+    private List<Datum> data = null;
+    @SerializedName("spellcheck_info")
+    @Expose
+    private SpellcheckInfo spellcheckInfo;
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getPerPage() {
+        return perPage;
+    }
+
+    public void setPerPage(Integer perPage) {
+        this.perPage = perPage;
+    }
+
+    public Integer getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public String getSearchId() {
+        return searchId;
+    }
+
+    public void setSearchId(String searchId) {
+        this.searchId = searchId;
+    }
+
+    public List<Datum> getData() {
+        return data;
+    }
+
+    public void setData(List<Datum> data) {
+        this.data = data;
+    }
+
+    public SpellcheckInfo getSpellcheckInfo() {
+        return spellcheckInfo;
+    }
+
+    public void setSpellcheckInfo(SpellcheckInfo spellcheckInfo) {
+        this.spellcheckInfo = spellcheckInfo;
+    }
+
+    public class SpellcheckInfo {
+
+
+    }
+
+    public class Assets {
+
+        @SerializedName("preview")
+        @Expose
+        private Preview preview;
+        @SerializedName("small_thumb")
+        @Expose
+        private SmallThumb smallThumb;
+        @SerializedName("large_thumb")
+        @Expose
+        private LargeThumb largeThumb;
+        @SerializedName("huge_thumb")
+        @Expose
+        private HugeThumb hugeThumb;
+        @SerializedName("preview_1000")
+        @Expose
+        private Preview1000 preview1000;
+        @SerializedName("preview_1500")
+        @Expose
+        private Preview1500 preview1500;
+
+        public Preview getPreview() {
+            return preview;
+        }
+
+        public void setPreview(Preview preview) {
+            this.preview = preview;
+        }
+
+        public SmallThumb getSmallThumb() {
+            return smallThumb;
+        }
+
+        public void setSmallThumb(SmallThumb smallThumb) {
+            this.smallThumb = smallThumb;
+        }
+
+        public LargeThumb getLargeThumb() {
+            return largeThumb;
+        }
+
+        public void setLargeThumb(LargeThumb largeThumb) {
+            this.largeThumb = largeThumb;
+        }
+
+        public HugeThumb getHugeThumb() {
+            return hugeThumb;
+        }
+
+        public void setHugeThumb(HugeThumb hugeThumb) {
+            this.hugeThumb = hugeThumb;
+        }
+
+        public Preview1000 getPreview1000() {
+            return preview1000;
+        }
+
+        public void setPreview1000(Preview1000 preview1000) {
+            this.preview1000 = preview1000;
+        }
+
+        public Preview1500 getPreview1500() {
+            return preview1500;
+        }
+
+        public void setPreview1500(Preview1500 preview1500) {
+            this.preview1500 = preview1500;
+        }
+
+    }
+
+    public class Contributor {
+
+        @SerializedName("id")
+        @Expose
+        private String id;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+    }
+
+    public class Datum {
+
+        @SerializedName("id")
+        @Expose
+        private String id;
+        @SerializedName("aspect")
+        @Expose
+        private Double aspect;
+        @SerializedName("assets")
+        @Expose
+        private Assets assets;
+        @SerializedName("contributor")
+        @Expose
+        private Contributor contributor;
+        @SerializedName("description")
+        @Expose
+        private String description;
+        @SerializedName("image_type")
+        @Expose
+        private String imageType;
+        @SerializedName("has_model_release")
+        @Expose
+        private Boolean hasModelRelease;
+        @SerializedName("media_type")
+        @Expose
+        private String mediaType;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public Double getAspect() {
+            return aspect;
+        }
+
+        public void setAspect(Double aspect) {
+            this.aspect = aspect;
+        }
+
+        public Assets getAssets() {
+            return assets;
+        }
+
+        public void setAssets(Assets assets) {
+            this.assets = assets;
+        }
+
+        public Contributor getContributor() {
+            return contributor;
+        }
+
+        public void setContributor(Contributor contributor) {
+            this.contributor = contributor;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public String getImageType() {
+            return imageType;
+        }
+
+        public void setImageType(String imageType) {
+            this.imageType = imageType;
+        }
+
+        public Boolean getHasModelRelease() {
+            return hasModelRelease;
+        }
+
+        public void setHasModelRelease(Boolean hasModelRelease) {
+            this.hasModelRelease = hasModelRelease;
+        }
+
+        public String getMediaType() {
+            return mediaType;
+        }
+
+        public void setMediaType(String mediaType) {
+            this.mediaType = mediaType;
+        }
+
+    }
+
+    public class HugeThumb {
+
+        @SerializedName("height")
+        @Expose
+        private Integer height;
+        @SerializedName("url")
+        @Expose
+        private String url;
+        @SerializedName("width")
+        @Expose
+        private Integer width;
+
+        public Integer getHeight() {
+            return height;
+        }
+
+        public void setHeight(Integer height) {
+            this.height = height;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public Integer getWidth() {
+            return width;
+        }
+
+        public void setWidth(Integer width) {
+            this.width = width;
+        }
+
+    }
+
+    public class LargeThumb {
+
+        @SerializedName("height")
+        @Expose
+        private Integer height;
+        @SerializedName("url")
+        @Expose
+        private String url;
+        @SerializedName("width")
+        @Expose
+        private Integer width;
+
+        public Integer getHeight() {
+            return height;
+        }
+
+        public void setHeight(Integer height) {
+            this.height = height;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public Integer getWidth() {
+            return width;
+        }
+
+        public void setWidth(Integer width) {
+            this.width = width;
+        }
+
+    }
+
+    public class Preview {
+
+        @SerializedName("height")
+        @Expose
+        private Integer height;
+        @SerializedName("url")
+        @Expose
+        private String url;
+        @SerializedName("width")
+        @Expose
+        private Integer width;
+
+        public Integer getHeight() {
+            return height;
+        }
+
+        public void setHeight(Integer height) {
+            this.height = height;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public Integer getWidth() {
+            return width;
+        }
+
+        public void setWidth(Integer width) {
+            this.width = width;
+        }
+
+    }
+
+    public class Preview1000 {
+
+        @SerializedName("url")
+        @Expose
+        private String url;
+        @SerializedName("width")
+        @Expose
+        private Integer width;
+        @SerializedName("height")
+        @Expose
+        private Integer height;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public Integer getWidth() {
+            return width;
+        }
+
+        public void setWidth(Integer width) {
+            this.width = width;
+        }
+
+        public Integer getHeight() {
+            return height;
+        }
+
+        public void setHeight(Integer height) {
+            this.height = height;
+        }
+
+    }
+
+    public class Preview1500 {
+
+        @SerializedName("url")
+        @Expose
+        private String url;
+        @SerializedName("width")
+        @Expose
+        private Integer width;
+        @SerializedName("height")
+        @Expose
+        private Integer height;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public Integer getWidth() {
+            return width;
+        }
+
+        public void setWidth(Integer width) {
+            this.width = width;
+        }
+
+        public Integer getHeight() {
+            return height;
+        }
+
+        public void setHeight(Integer height) {
+            this.height = height;
+        }
+    }
+
+    public class SmallThumb {
+
+        @SerializedName("height")
+        @Expose
+        private Integer height;
+        @SerializedName("url")
+        @Expose
+        private String url;
+        @SerializedName("width")
+        @Expose
+        private Integer width;
+
+        public Integer getHeight() {
+            return height;
+        }
+
+        public void setHeight(Integer height) {
+            this.height = height;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public Integer getWidth() {
+            return width;
+        }
+
+        public void setWidth(Integer width) {
+            this.width = width;
+        }
+
+    }
+
+
+}
